@@ -82,5 +82,10 @@ def leer_notas(db: Session = Depends(get_db), usuario: str = Depends(verificar_t
     notas_descifradas = []
     for n in notas_db:
         texto_claro = cipher_suite.decrypt(n.nota_cifrada.encode('utf-8')).decode('utf-8')
-        notas_descifradas.append({"id": n.id, "texto_secreto": texto_claro})
+        # Aquí agregamos la evidencia visual para la presentación
+        notas_descifradas.append({
+            "id": n.id,
+            "como_se_guarda_en_bd_cifrado": n.nota_cifrada, 
+            "como_lo_ve_el_usuario_descifrado": texto_claro
+        })
     return {"tus_notas": notas_descifradas}
